@@ -41,15 +41,9 @@ function insertNeedles(haystack, needle = 'NEEDLE', count = 100) {
     const max = haystack.length;
     
     // pick a random message
-    let msgIndex = Math.floor(Math.random() * (max - min)) + min;
+    let msgIndex = randomIndex(haystack);
     let msg = haystack[msgIndex].text;
 
-    // replace random words with needle
-    // let words = msg.split(' ');
-    // const wordMax = words.length;
-    // let wordIndex = Math.floor(Math.random() * (wordMax - min + 1) + min);
-    // if(words[wordIndex] === needle) console.warn('overwriting needle with a needle. Your needlecount will now be off');
-    // words[wordIndex] = needle;
     // yes I know I am mutating an arugment. this is just a POC, relax ;) 
     haystack[msgIndex].text = swapWordForNeedle(msg, needle)
     index -= 1; 
@@ -60,18 +54,20 @@ function insertNeedles(haystack, needle = 'NEEDLE', count = 100) {
 
 function swapWordForNeedle(sentence, needle){
   let words = sentence.split(' ');
-  const min = 0;
-
-  const max = words.length;
-  let index = Math.floor(Math.random() * (max - min)) + min;
+  let index = randomIndex(words);
   // if(words[index] === needle) console.warn('overwriting needle with a needle. Your needlecount will now be off');
   while(words[index] === needle) {
-    index = Math.floor(Math.random() * (max - min)) + min;
+    index = randomIndex(words);
   }
   words[index] = needle;
   // yes I know I am mutating an arugment. this is just a POC, relax ;) 
-  // haystack[msgIndex].text = words.join(' ');
   return words.join(' ');
+}
+
+function randomIndex(arr) {
+  const min = 0;
+  const max = arr.length;
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 buildCorpus(5);
