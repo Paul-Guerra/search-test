@@ -7,8 +7,10 @@ const DEFAULT_SIZE = 100000;
 function buildCorpus(size = DEFAULT_SIZE) {
   let messages = [];
   let haystack = makeHaystack(size);
-  messages = insertNeedles(haystack);
-  console.log(messages);
+  messages = insertNeedles(haystack, 'KEYWORD', size);
+
+  console.log('generated payload', messages.length);
+  return messages;
 }
 
 function makeHaystack(size = DEFAULT_SIZE) {
@@ -17,7 +19,7 @@ function makeHaystack(size = DEFAULT_SIZE) {
     
 
     let text = loremIpsum({
-      count: 50,
+      count: 10,
       units: 'word',
       random: Math.random,
       format: 'plain',
@@ -33,7 +35,7 @@ function makeHaystack(size = DEFAULT_SIZE) {
   return haystack;
 }
 
-function insertNeedles(haystack, needle = 'NEEDLE', count = 100) {
+function insertNeedles(haystack, needle = 'KEYWORD', count = 100) {
   let index = count;
   
   while(index) {
@@ -45,7 +47,7 @@ function insertNeedles(haystack, needle = 'NEEDLE', count = 100) {
     let msg = haystack[msgIndex].text;
 
     // yes I know I am mutating an arugment. this is just a POC, relax ;) 
-    haystack[msgIndex].text = swapWordForNeedle(msg, needle)
+    haystack[msgIndex].text = swapWordForNeedle(msg, needle);
     index -= 1; 
   }
 
@@ -70,4 +72,5 @@ function randomIndex(arr) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-buildCorpus(5);
+// buildCorpus();
+module.exports = buildCorpus;
