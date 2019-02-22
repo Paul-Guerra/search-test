@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --silent",
+    "test:debug": "echo  \"Visit \\033[1;36mchrome://inspect\\033[0m then wait for your \\033[1;33mdebugger;\\033[0m statement to trigger\" && node --inspect-brk node_modules/.bin/jest $1"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,12 @@
   },
   "homepage": "https://github.com/Paul-Guerra/search-test#readme",
   "dependencies": {
+    "elasticlunr": "^0.9.5",
     "fuse.js": "^3.2.1",
     "lorem-ipsum": "^1.0.6",
     "lunr": "^2.3.3"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
   }
 }

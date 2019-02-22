@@ -1,8 +1,7 @@
 
 const lunr = require('lunr');
 const buildCorpus = require('./messages');
-
-const messages = buildCorpus(5);
+const messages = buildCorpus();
 let indexBuilder;
 let idx = lunr(function(builder) {
   // keep a reference to the builder in scope so you can add documents later
@@ -23,10 +22,14 @@ let newMessage = {
 };
 
 // this is how you can add a new message to the index
+let start = Date.now();
+console.log('adding and reindexing')
 indexBuilder.add(newMessage);
-idx = indexBuilder.build();
 
-console.log(idx.search("KEYWORD").map(r => {
+idx = indexBuilder.build();
+console.log('adding and reindexing - total time', Date.now() - start)
+
+idx.search("KEYWORD").map(r => {
   return r.ref;
-}));
+});
 // console.log(idx);
