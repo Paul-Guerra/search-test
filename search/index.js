@@ -1,14 +1,14 @@
-export function newNextWordData(next) {
+function newNextWordData(next) {
   return { next: next || false };
 }
 
-export function newWordDocData(order, next) {
+function newWordDocData(order, next) {
   return {
     [order]: newNextWordData(next)
   };
 }
 
-export default class Index {
+class Index {
   constructor() {
     this._index = {}; // The inverted index of doc content
   }
@@ -92,3 +92,5 @@ export default class Index {
     delete this._index[word];
   }
 }
+
+module.exports = Index;

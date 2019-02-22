@@ -1,6 +1,6 @@
 // import until from '../../utils/async/until';
 
-export default class PartialMatcher {
+class PartialMatcher {
   constructor() {
     /*
     allheWords is a big string that contains a unique word per line
@@ -60,13 +60,8 @@ export default class PartialMatcher {
    */
   findSync(pattern) {
     const p = new RegExp(`^.*${pattern}.*$`, 'igm');
-    // let matches = [];
-    // let result = p.exec(this._allTheWords);
-    // while (result) {
-    //   matches.push(result);
-    //   result = p.exec(this._allTheWords);
-    // }
-    // return matches;
     return this._allTheWords.match(p);
   }
 }
+
+module.exports = PartialMatcher;
