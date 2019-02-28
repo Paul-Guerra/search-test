@@ -1,18 +1,12 @@
-const SearchIndex = require('./search/search.worker').Search;
 const buildCorpus = require('./messages');
 let messages = buildCorpus(100000, "KEY WORD");
-
 let start;
 
-const search = new SearchIndex();
-
-console.time('adding docs to index');
-messages.forEach((doc, i) => search.add(doc.text, i));
-console.timeEnd('adding docs to index');
-
+let results = [];
 console.time('searching for docs with "KEY WORD"');
-results = search.search("KEY WORD");
+results = messages.filter(msg => msg.text.indexOf("KEY WORD") > -1).map(msg => msg.id);
 console.timeEnd('searching for docs with "KEY WORD"');
+
 
 console.log("messages: ", messages.length);
 // console.log("results: ", results);

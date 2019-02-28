@@ -13,6 +13,6 @@ console.time('searching for docs with "KEYWORD"');
 results = search.search("KEYWORD");
 console.timeEnd('searching for docs with "KEYWORD"');
 
-console.log("results: ", Object.keys(results[0]));
+console.log("results: ", results);
 console.log("messages: ", messages
 );

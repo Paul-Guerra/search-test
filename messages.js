@@ -72,5 +72,4 @@ function randomIndex(arr) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-// buildCorpus();
 module.exports = buildCorpus;
