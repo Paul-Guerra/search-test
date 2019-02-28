@@ -6,14 +6,15 @@ let start;
 
 const search = new SearchIndex();
 
+console.log('Begin indexing');
 console.time('adding docs to index');
 messages.forEach((doc, i) => search.add(doc.text, i));
 console.timeEnd('adding docs to index');
 
 console.time('searching for docs with "KEY WORD"');
-results = search.search("KEY WORD");
+let results = search.search("KEY WORD");
 console.timeEnd('searching for docs with "KEY WORD"');
 
 console.log("messages: ", messages.length);
-// console.log("results: ", results);
+console.log("results: ", results.size);
 // console.log("messages: ", messages);

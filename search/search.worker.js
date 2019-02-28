@@ -11,27 +11,33 @@ function getWords(doc) {
   return doc.toLowerCase().split(/\s+/);
 }
 
+
 class Search {
   constructor() {
     this._partial = new PartialMatcher();
     this._index = new Index();
+    this.testIndex = {};
+    // this.onWord = onWord.bind(this);
+  }
+
+  onWord (word, i, words, id) {
+    let nextWord;
+    // this.testIndex[word] = {};
+    if (i + 1 < words.length) nextWord = words[i + 1];
+    if (!this._index.has(word)) {
+      // this._partial.add(word);
+      this._index.add(word, id, i, nextWord);
+    } else {
+      this._index.update(word, id, i, nextWord);
+    }
   }
 
   add(doc, id) {
     const words = getWords(doc);
-
-    const onWord = (word, i) => {
-      let nextWord;
-      if (i + 1 < words.length) nextWord = words[i + 1];
-      if (!this._index.has(word)) {
-        // this._partial.add(word);
-        this._index.add(word, id, i, nextWord);
-      } else {
-        this._index.update(word, id, i, nextWord);
-      }
-    };
-
-    words.forEach(onWord);
+    // words.forEach((word, i, words) => this.onWord(word, i, words));
+    for(let i = 0; i < words.length; i++) {
+      this.onWord(words[i], i, words, id);
+    }
   }
 
   remove(doc, id) {
@@ -58,11 +64,12 @@ class Search {
     if (words.length === 0) return [];
     let allTheWords = Object.keys(this._index._index).join('\n')
     for (let i = 0; i < words.length; i += 1) {
-      const wordsWithMatch = this._partial.find(words[i], allTheWords) || [];
+      const wordPerLinePattern = new RegExp(`^${words[i]}$`, 'igm');
+      const wordsWithMatch = this._partial.find(words[i], wordPerLinePattern, allTheWords) || [];
       let documentIds = [];
       wordsWithMatch.forEach(word => 
         documentIds = documentIds.concat(
-          Object.keys(this._index.get(word))
+          Array.from(this._index.get(word))
         )
       );
       const documents = new Set(documentIds);

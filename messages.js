@@ -7,7 +7,7 @@ const DEFAULT_SIZE = 10;
 function buildCorpus(size = DEFAULT_SIZE, needle = 'KEYWORD') {
   let messages = [];
   let haystack = makeHaystack(size);
-  messages = insertNeedles(haystack, needle);
+  messages = insertNeedles(haystack, needle, size/2);
 
   console.log('generated payload', messages.length);
   return messages;
@@ -37,7 +37,7 @@ function makeHaystack(size = DEFAULT_SIZE) {
 
 function insertNeedles(haystack, needle = 'KEYWORD', count = DEFAULT_SIZE/2) {
   let index = count;
-  
+  let updatedMessages = new Set();
   while(index) {
     const min = 0;
     const max = haystack.length;
@@ -45,12 +45,12 @@ function insertNeedles(haystack, needle = 'KEYWORD', count = DEFAULT_SIZE/2) {
     // pick a random message
     let msgIndex = randomIndex(haystack);
     let msg = haystack[msgIndex].text;
-
+    updatedMessages.add(msgIndex);
     // yes I know I am mutating an arugment. this is just a POC, relax ;) 
     haystack[msgIndex].text = swapWordForNeedle(msg, needle);
     index -= 1; 
   }
-
+  console.log('Updated messages:', updatedMessages.size);
   return haystack;
 }
 

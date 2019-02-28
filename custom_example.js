@@ -10,7 +10,7 @@ messages.forEach((doc, i) => search.add(doc.text, i));
 console.timeEnd('adding docs to index');
 
 console.time('searching for docs with "KEYWORD"');
-results = search.search("KEYWORD");
+let results = search.search("KEYWORD");
 console.timeEnd('searching for docs with "KEYWORD"');
 
 console.log("results: ", results);
