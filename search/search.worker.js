@@ -48,9 +48,9 @@ class Search {
 
 
   /**
-   * 
+   * @description Searches for a case insentivie match for a string in a set of documents
    * @param {string} query A string to find an exact match in the documents
-   * @returns An array of documents that contain an exact match for the query string
+   * @returns An set of documents that contain an exact match for the query string
    */
   search(query) {
     const words = getWords(query);
@@ -58,13 +58,17 @@ class Search {
     if (words.length === 0) return [];
     for (let i = 0; i < words.length; i += 1) {
       const wordsWithMatch = this._partial.find(words[i]) || [];
-      const documentIds = new Set(
-        wordsWithMatch.map(word => Object.keys(this._index.get(word)))
+      let documentIds = [];
+      wordsWithMatch.forEach(word => 
+        documentIds = documentIds.concat(
+          Object.keys(this._index.get(word))
+        )
       );
+      const documents = new Set(documentIds);
       if (i === 0) {
-        results = documentIds;
+        results = documents;
       } else {
-        results = getIntersection(results, documentIds)
+        results = getIntersection(results, documents)
       }
       if (results.size === 0) break; // all intersections after this would return empty so bail
     }
