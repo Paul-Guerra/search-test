@@ -82,52 +82,6 @@ class Search {
     }
     return results;
   }
-
-  /**
-   * 
-   * @param {string} query A string to find an exact match in the documents
-   * @returns An array of documents that contain an exact match for the query string
-   */
-  _search(query) {
-    const words = getWords(query);
-    if (words.length === 0) return [];
-    if (words.length === 1) {
-      const wordsWithMatch = this._partial.find(query);
-      const documents = wordsWithMatch.map(word => this._index.get(word));
-      return documents;
-    }
-    return this.searchPhrase(words);
-
-  }
-
-  /**
-   * @description Searches for docuement that contain an exact match for a phrase
-   * @param {[]string} words - strings that make up the phrase we are searching for
-   * @returns An array of documents
-   */
-  searchPhrase(words) {
-    const results = [];
-    let pattern;
-    if (words.length === 0) return [];
-    if (words.length === 1) return this.find(words[0]);
-    let i = 0;
-    while(i < words.length) {
-      if (i === 0) {
-        pattern = new RegExp(`^.*${words[i]}$`, 'igm');
-        
-      } else {
-        pattern = new RegExp(`^${words[i]}.*$`, 'igm');
-      }
-      const wordsWithMatch = this._partial.find(words[i], pattern)
-      const documents = wordsWithMatch.map(word => this._index.get(word));
-      results.push({
-        word: words[i],
-        documents 
-      });
-      i++;
-    }
-    return results;
-  }
 }
 
 /**
