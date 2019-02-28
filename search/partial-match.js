@@ -36,10 +36,10 @@ class PartialMatcher {
    * @description Searches for words that contain a substring pattern
    * @param {string} query - Substring to find
    */
-  find(query, pattern) {
+  find(query, pattern, allTheWords = this._allTheWords) {
     let p = pattern;
     if (!pattern) p = new RegExp(`^.*${query}.*$`, 'igm');
-    return this._allTheWords.match(p);
+    return allTheWords.match(p);
   }
   
   // /**

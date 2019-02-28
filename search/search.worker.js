@@ -24,7 +24,7 @@ class Search {
       let nextWord;
       if (i + 1 < words.length) nextWord = words[i + 1];
       if (!this._index.has(word)) {
-        this._partial.add(word);
+        // this._partial.add(word);
         this._index.add(word, id, i, nextWord);
       } else {
         this._index.update(word, id, i, nextWord);
@@ -56,8 +56,9 @@ class Search {
     const words = getWords(query);
     let results;
     if (words.length === 0) return [];
+    let allTheWords = Object.keys(this._index._index).join('\n')
     for (let i = 0; i < words.length; i += 1) {
-      const wordsWithMatch = this._partial.find(words[i]) || [];
+      const wordsWithMatch = this._partial.find(words[i], allTheWords) || [];
       let documentIds = [];
       wordsWithMatch.forEach(word => 
         documentIds = documentIds.concat(
