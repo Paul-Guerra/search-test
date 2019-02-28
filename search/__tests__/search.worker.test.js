@@ -1,9 +1,12 @@
 /* global describe, it, expect, beforeEach, jest */
 /* eslint no-underscore-dangle: "off" */
 
-import PartialMatcher from '../partial-match';
-import Index from '../index';
-import Search, { getWords } from '../search.worker';
+// import PartialMatcher from '../partial-match';
+// import Index from '../index';
+// import Search, { getWords } from '../search.worker';
+const PartialMatcher = require('../partial-match');
+const Index = require('../index');
+const { Search, getWords } = require('../search.worker');
 
 jest.mock('../partial-match');
 jest.mock('../index');

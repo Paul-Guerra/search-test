@@ -1,7 +1,6 @@
 /* global describe, it, expect */
 /* eslint no-underscore-dangle: "off" */
-
-import PartialMatcher from '../partial-match';
+const PartialMatcher = require('../partial-match');
 
 describe('new PartialMatcher()', () => {
   let pm = new PartialMatcher();

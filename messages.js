@@ -2,12 +2,12 @@
 const loremIpsum = require('lorem-ipsum');
 const makeRandomName = require('./name-generator');
 
-const DEFAULT_SIZE = 500;
+const DEFAULT_SIZE = 10;
 
-function buildCorpus(size = DEFAULT_SIZE) {
+function buildCorpus(size = DEFAULT_SIZE, needle = 'KEYWORD') {
   let messages = [];
   let haystack = makeHaystack(size);
-  messages = insertNeedles(haystack);
+  messages = insertNeedles(haystack, needle);
 
   console.log('generated payload', messages.length);
   return messages;

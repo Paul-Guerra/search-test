@@ -5,7 +5,7 @@ class PartialMatcher {
     /*
     allheWords is a big string that contains a unique word per line
     it's used in conjunction with regex to detect partial match suffixs
-    Ideally I;d like to use something like a suffix tree for this job
+    Ideally I'd like to use something like a suffix tree for this job
     but the regex performance seems good enough and this implementation is
     much simpler. So I'm going with this for a first draft.
     Also, this makes editing, and removing docs easier to implement and
@@ -34,34 +34,42 @@ class PartialMatcher {
 
   /**
    * @description Searches for words that contain a substring pattern
-   * @param {string} pattern - Substring to find
+   * @param {string} query - Substring to find
    */
-  // find(pattern) {
-  //   let matches = [];
-  //   const p = new RegExp(`^.*${pattern}.*$`, 'igm');
-  //   let result;
-
-  //   const getNextResult = () => {
-  //     result = p.exec(this._allTheWords);
-  //     if (result) matches.push(result[0]);
-  //   };
-
-  //   const noMoreResults = () => {
-  //     if (typeof result === 'undefined') return false;
-  //     return result === null;
-  //   };
-
-  //   return until(noMoreResults, getNextResult, () => matches);
-  // }
-
-  /**
-   * @description Searches for words that contain a substring pattern
-   * @param {string} pattern - Substring to find
-   */
-  findSync(pattern) {
-    const p = new RegExp(`^.*${pattern}.*$`, 'igm');
+  find(query, pattern) {
+    let p = pattern;
+    if (!pattern) p = new RegExp(`^.*${query}.*$`, 'igm');
     return this._allTheWords.match(p);
   }
+  
+  // /**
+  //  * @description Searches for words that match the words in a phrase
+  //  * @param {[]string} words - strings that make up the phrase we are searching for
+  //  */
+  // findPhrase(words){
+  //   const results = [];
+  //   let pattern;
+  //   if (words.length === 0) return [];
+  //   if (words.length === 1) return this.find(words[0]);
+  //   let i = 0;
+  //   while(i < words.length) {
+  //     if (i === 0) {
+  //       pattern = new RegExp(`^.*${words[i]}$`, 'igm');
+  //       results.push({
+  //         word: words[i],
+  //         results: this.find(words[i], pattern)
+  //       });
+  //     } else {
+  //       pattern = new RegExp(`^${words[i]}.*$`, 'igm');
+  //       results.push({
+  //         word: words[i],
+  //         results: this.find(words[i], pattern)
+  //       });
+  //     }
+  //     i++;
+  //   }
+  //   return results;
+  // }
 }
 
 module.exports = PartialMatcher;
