@@ -1,6 +1,6 @@
 const SearchIndex = require('./search/search.worker').Search;
 const buildCorpus = require('./messages');
-let messages = buildCorpus(600000, "KEY WORD");
+let messages = buildCorpus(1000000, "KEY WORD");
 
 let start;
 

@@ -1,12 +1,12 @@
-function newNextWordData(next) {
-  return { next: next || false };
-}
+// function newNextWordData(next) {
+//   return { next: next || false };
+// }
 
-function newWordDocData(order, next) {
-  return {
-    [order]: newNextWordData(next)
-  };
-}
+// function newWordDocData(order, next) {
+//   return {
+//     [order]: newNextWordData(next)
+//   };
+// }
 
 class Index {
   constructor() {
@@ -26,7 +26,7 @@ class Index {
    * @param {string} word - Word to query
    */
   get(word) {
-    return this.has(word) ? this._index[word] : new Set();
+    return this.has(word) ? this._index[word].ids : new Set();
   }
 
   /**
@@ -38,7 +38,7 @@ class Index {
    * @returns {object} The indexed data for the word
    */
   add(word, docId, order, next) {
-    this._index[word] = new Set();
+    this._index[word] = {ids: new Set()};
     this.update(word, docId, order, next);
     return this._index[word];
   }
@@ -53,17 +53,20 @@ class Index {
    */
   update(word, docId, order, next) {
     let docData;
-    this._index[word].add(docId);
-    // if (this._index[word][docId]) {
-    //   docData = this._index[word][docId];
-    //   if (typeof docData[order] === 'object') {
-    //     console.warn('[Index.update] updating a word position in a document when position already exists. Returning existing data');
-    //     return this._index[word];
-    //   }
-    //   docData[order] = newNextWordData(next);
-    // } else {
-    //   this._index[word][docId] = newWordDocData(order, next);
-    // }
+    this._index[word].ids.add(docId);
+
+    docData = this._index[word][docId];
+    if (docData) {
+      if (typeof docData[order] === 'object') {
+        console.warn('[Index.update] updating a word position in a document when position already exists. Returning existing data');
+        return this._index[word];
+      }
+      docData[order] = true;
+    } else {
+      docData = {
+        [order]: true
+      };
+    }
 
     return this._index[word];
   }

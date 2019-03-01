@@ -17,15 +17,13 @@ class Search {
     this._partial = new PartialMatcher();
     this._index = new Index();
     this.testIndex = {};
-    // this.onWord = onWord.bind(this);
   }
 
   onWord (word, i, words, id) {
     let nextWord;
-    // this.testIndex[word] = {};
     if (i + 1 < words.length) nextWord = words[i + 1];
     if (!this._index.has(word)) {
-      // this._partial.add(word);
+      this._partial.add(word);
       this._index.add(word, id, i, nextWord);
     } else {
       this._index.update(word, id, i, nextWord);
